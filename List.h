@@ -3,35 +3,39 @@
 
 #include <string>
 
-
-
 class List {
-    private:
-        class Node {
-            public:
-                Node(int _value);
-                int value;
-                Node* next;
+   private:
+    class Node {
+       public:
+        Node(int _value);
+        int value;
+        Node* next;
 
-            private:
-        };
-        void insert(Node*& node, int _value);
-        
-    public:
-        List();
-        Node* firstNode;
+       private:
+    };
+    void insert(Node*& node, int _value);
+    void clean();
 
-        void insert(int _value);
-        void remove(int _value);
-        std::string to_string();
+   public:
+    List();
+    Node* firstNode;
 
-        bool is_empty();
-        int size();
+    void insert(int _value);
+    void remove(int _value);
+    std::string to_string();
 
-        List(List const& other);
-        List& operator=(List const& other);
+    bool is_empty();
+    int size();
 
-        ~List();
+    // COPY
+    List(List const& other);
+    List& operator=(List const& other);
+
+    //MOVE
+    List(List&& other);
+    List& operator=(List&& other);
+
+    ~List();
 };
 
 #endif

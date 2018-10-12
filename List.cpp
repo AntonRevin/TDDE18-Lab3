@@ -60,6 +60,7 @@ void List::remove(int _value) {
 
 // COPY CONSTRUCTOR
 List::List(List const& other) {
+    firstNode = NULL;
     Node* tmp = other.firstNode;
     Node* cursor;
     if (tmp != NULL) {
@@ -76,6 +77,7 @@ List::List(List const& other) {
 
 // ASSIGNMENT OPERATOR
 List& List::operator=(List const& other) {
+    clean();  // Remove any old data first.
     Node* tmp = other.firstNode;
     Node* cursor;
     if (tmp != NULL) {
@@ -88,6 +90,19 @@ List& List::operator=(List const& other) {
             cursor = cursor->next;
         }
     }
+    return *this;
+}
+
+// MOVE CONSTRUCTOR
+List::List(List&& other) {
+    firstNode = other.firstNode;
+    other.firstNode = NULL;
+}
+
+// MOVE ASSIGNMENT
+List& List::operator=(List&& other) {
+    firstNode = other.firstNode;
+    other.firstNode = NULL;
 }
 
 // DRAW LIST
@@ -109,13 +124,20 @@ bool List::is_empty() {
 
 // SIZE
 int List::size() {
-    int tmp {};
+    int tmp{};
     Node* currentNode = firstNode;
     while (currentNode != NULL) {
         tmp++;
         currentNode = currentNode->next;
     }
     return tmp;
+}
+
+// DELETE LIST
+void List::clean() {
+    while (firstNode != NULL) {
+        remove(firstNode->value);
+    }
 }
 
 // DESCTRUCTOR

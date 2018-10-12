@@ -13,19 +13,106 @@
 // This define lets Catch create the main test program
 // (Must be in only one place!)
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
-#include "List.h"
 #include <random>
+#include "List.h"
+#include "catch.hpp"
+
+#include "iostream"
 
 //=======================================================================
 // Test cases
 //=======================================================================
 
-TEST_CASE( "Create an empty list" ) {
-  List l{};
+TEST_CASE("Create an empty list") {
+    List l{};
 
-  REQUIRE( l.is_empty() == true );
-  REQUIRE( l.size() == 0 );
+    REQUIRE(l.is_empty() == true);
+    REQUIRE(l.size() == 0);
 }
 
-// It is your job to create new test cases and fully test your Sorted_List class
+TEST_CASE("Create a non-empty list") {
+    List l{};
+    l.insert(1);
+    REQUIRE(l.is_empty() == false);
+    REQUIRE(l.size() == 1);
+    List l2{};
+    l2.insert(-1);
+    REQUIRE(l2.is_empty() == false);
+    REQUIRE(l2.size() == 1);
+}
+
+TEST_CASE("to_string + order") {
+    List l{};
+    REQUIRE(l.to_string() == "{ }");
+    l.insert(1);
+    REQUIRE(l.to_string() == "{ 1 }");
+    l.insert(2);
+    REQUIRE(l.to_string() == "{ 1 2 }");
+    l.insert(-2);
+    REQUIRE(l.to_string() == "{ -2 1 2 }");
+}
+
+TEST_CASE("Insert duplicates") {
+    List l{};
+    l.insert(1);
+    l.insert(1);
+    REQUIRE(l.to_string() == "{ 1 1 }");
+}
+
+TEST_CASE("remove") {
+    List l{};
+    l.insert(1);
+    l.insert(1);
+    l.insert(20);
+    l.remove(1);
+    REQUIRE(l.to_string() == "{ 1 20 }");
+    l.remove(20);
+    REQUIRE(l.to_string() == "{ 1 }");
+    l.insert(2);
+    l.remove(1);
+    REQUIRE(l.to_string() == "{ 2 }");
+    l.remove(2);
+    REQUIRE(l.to_string() == "{ }");
+    REQUIRE(l.is_empty() == true);
+}
+
+TEST_CASE("Deep-Copy Assignment") {
+    List l{};
+    l.insert(1);
+    l.insert(2);
+    l.insert(3);
+    List l2{};
+    l2 = l;
+    REQUIRE(l.is_empty() == false);
+    REQUIRE(l2.is_empty() == false);
+    REQUIRE(l.to_string() == "{ 1 2 3 }");
+    REQUIRE(l2.to_string() == "{ 1 2 3 }");
+    List l3{};
+    l = l3;
+    REQUIRE(l.is_empty() == true);
+    REQUIRE(l3.is_empty() == true);
+}
+
+TEST_CASE("Deep-Copy constructor") {
+    List l{};
+    l.insert(1);
+    l.insert(2);
+    l.insert(3);
+    List l2{l};
+    REQUIRE(l.is_empty() == false);
+    REQUIRE(l2.is_empty() == false);
+    REQUIRE(l.to_string() == "{ 1 2 3 }");
+    REQUIRE(l2.to_string() == "{ 1 2 3 }");
+    List l3{};
+    List l4{l3};
+    REQUIRE(l3.is_empty() == true);
+    REQUIRE(l4.is_empty() == true);
+}
+
+TEST_CASE("Move Assignment") {
+    // TODO
+}
+
+TEST_CASE("Move constructor") {
+    // TODO
+}
