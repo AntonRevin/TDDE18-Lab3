@@ -80,6 +80,9 @@ TEST_CASE("remove") {
     l.remove(2);
     REQUIRE(l.to_string() == "{ }");
     REQUIRE(l.is_empty() == true);
+    // remove from an empty list
+    l.remove(0);
+    REQUIRE(l.is_empty() == true);
 }
 
 TEST_CASE("Deep-Copy Assignment") {
