@@ -52,11 +52,17 @@ TEST_CASE("to_string + order") {
     REQUIRE(l.to_string() == "{ -2 1 2 }");
 }
 
-TEST_CASE("Insert duplicates") {
+TEST_CASE("Insert duplicates and order") {
     List l{};
     l.insert(1);
     l.insert(1);
     REQUIRE(l.to_string() == "{ 1 1 }");
+    List l2{};
+    l2.insert(5);
+    l2.insert(1);
+    l2.insert(99);
+    l2.insert(0);
+    REQUIRE(l2.to_string() == "{ 0 1 5 99 }");
 }
 
 TEST_CASE("remove") {
@@ -110,9 +116,22 @@ TEST_CASE("Deep-Copy constructor") {
 }
 
 TEST_CASE("Move Assignment") {
-    // TODO
+    List l{};
+    l.insert(2);
+    l.insert(1);
+    l.insert(3);
+    List l2{};
+    l2 = std::move(l);
+    REQUIRE(l.is_empty() == true);
+    REQUIRE(l2.to_string() == "{ 1 2 3 }");
 }
 
 TEST_CASE("Move constructor") {
-    // TODO
+    List l{};
+    l.insert(2);
+    l.insert(1);
+    l.insert(3);
+    List l2(std::move(l));
+    REQUIRE(l.is_empty() == true);
+    REQUIRE(l2.to_string() == "{ 1 2 3 }");
 }
