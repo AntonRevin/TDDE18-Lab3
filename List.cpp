@@ -103,18 +103,19 @@ List::List(List&& other) {
 List& List::operator=(List&& other) {
     firstNode = other.firstNode;
     other.firstNode = NULL;
+    return *this;
 }
 
 // DRAW LIST
 string List::to_string() {
     Node* currentNode = firstNode;
-    string t{"{ "};
+    string str{"{ "};
     while (currentNode != NULL) {
-        t += std::to_string(currentNode->value) + " ";
+        str += std::to_string(currentNode->value) + " ";
         currentNode = currentNode->next;
     }
-    t += "}";
-    return t;
+    str += "}";
+    return str;
 }
 
 // IS_EMPTY
