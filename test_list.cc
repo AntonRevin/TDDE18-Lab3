@@ -138,3 +138,12 @@ TEST_CASE("Move constructor") {
     REQUIRE(l.is_empty() == true);
     REQUIRE(l2.to_string() == "{ 1 2 3 }");
 }
+
+TEST_CASE("Clean") {
+    List l{};
+    l.insert(2);
+    l.insert(1);
+    l.insert(3);
+    l.clean();
+    REQUIRE(l.is_empty() == true);
+}

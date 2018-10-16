@@ -8,19 +8,21 @@ using namespace std;
 
 */
 
-// CONSTRUCTOR
+// Constructor
 List::List() {
     firstNode = NULL;
 }
 
+// Public insert function
 void List::insert(int _value) {
-    insert(firstNode, _value);
+    insert(firstNode, _value);  // call recursive, internal, insert function
 }
 
+// Private insert function
 void List::insert(Node*& node, int _value) {
     if (node == NULL) {  // if no Nodes exist
         node = new Node(_value);
-    } else if (node->value >= _value) {
+    } else if (node->value >= _value) {  // insert a new node
         Node* nextNode = node->next;
         int tmpVal = node->value;
         Node* temp = new Node(tmpVal);
@@ -28,19 +30,20 @@ void List::insert(Node*& node, int _value) {
         node->next = temp;
         temp->next = nextNode;
     } else {
-        if (node->next == NULL) {
+        if (node->next == NULL) {  // reached the end of the list, append a node
             node->next = new Node(_value);
-        } else {
+        } else {  // continue searching from the next node in the list
             insert(node->next, _value);
         }
     }
 }
 
+// Remove
 void List::remove(int _value) {
     Node* currentNode = firstNode;
     Node* lastNode = firstNode;
-    while (currentNode != NULL) {
-        if (currentNode->value == _value) {
+    while (currentNode != NULL) {            // while we haven't reached the end of the list, iterate over nodes.
+        if (currentNode->value == _value) {  // check if we've found the node to delete
             if (currentNode == firstNode) {
                 Node* tmp = currentNode->next;
                 delete firstNode;
@@ -58,7 +61,7 @@ void List::remove(int _value) {
     }
 }
 
-// COPY CONSTRUCTOR
+// Deep copy constructor
 List::List(List const& other) {
     firstNode = NULL;
     Node* tmp = other.firstNode;
@@ -75,7 +78,7 @@ List::List(List const& other) {
     }
 }
 
-// ASSIGNMENT OPERATOR
+// Deep copy "=" assignment
 List& List::operator=(List const& other) {
     clean();  // Remove any old data first.
     Node* tmp = other.firstNode;
@@ -93,20 +96,20 @@ List& List::operator=(List const& other) {
     return *this;
 }
 
-// MOVE CONSTRUCTOR
+// Quick move constructor
 List::List(List&& other) {
     firstNode = other.firstNode;
     other.firstNode = NULL;
 }
 
-// MOVE ASSIGNMENT
+// Quick move "=" assignment
 List& List::operator=(List&& other) {
     firstNode = other.firstNode;
     other.firstNode = NULL;
     return *this;
 }
 
-// DRAW LIST
+// to_string
 string List::to_string() {
     Node* currentNode = firstNode;
     string str{"{ "};
@@ -118,12 +121,12 @@ string List::to_string() {
     return str;
 }
 
-// IS_EMPTY
+// is_empty
 bool List::is_empty() {
     return (firstNode == NULL);
 }
 
-// SIZE
+// size
 int List::size() {
     int tmp{};
     Node* currentNode = firstNode;
@@ -134,14 +137,14 @@ int List::size() {
     return tmp;
 }
 
-// DELETE LIST
+// clean (deletes all the elements in the list)
 void List::clean() {
     while (firstNode != NULL) {
         remove(firstNode->value);
     }
 }
 
-// DESCTRUCTOR
+// destructor
 List::~List() {
     Node* currentNode = firstNode;
     while (currentNode != NULL) {
@@ -156,7 +159,7 @@ List::~List() {
     -- NODE --
 
 */
-// CONSTRUCTOR
+// constructor
 List::Node::Node(int _value) {
     value = _value;
     next = NULL;
