@@ -14,7 +14,6 @@ class List {
        private:
     };
     void insert(Node*& node, int _value);
-    void clean();
 
    public:
     List();
@@ -26,6 +25,7 @@ class List {
 
     bool is_empty();
     int size();
+    void clean();
 
     // COPY
     List(List const& other);
