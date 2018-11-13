@@ -3,14 +3,11 @@
 using namespace std;
 
 /*
-
     -- LIST --
-
 */
 
-// Constructor
-List::List() {
-    firstNode = NULL;
+List::List()
+    : firstNode{nullptr} {
 }
 
 // Public insert function
@@ -20,17 +17,17 @@ void List::insert(int _value) {
 
 // Private insert function
 void List::insert(Node*& node, int _value) {
-    if (node == NULL) {  // if no Nodes exist
+    if (node == nullptr) {  // if no Nodes exist
         node = new Node(_value);
     } else if (node->value >= _value) {  // insert a new node
-        Node* nextNode = node->next;
+        Node* nextNode{node->next};
         int tmpVal = node->value;
-        Node* temp = new Node(tmpVal);
+        Node* temp{new Node(tmpVal)};
         node->value = _value;
         node->next = temp;
         temp->next = nextNode;
     } else {
-        if (node->next == NULL) {  // reached the end of the list, append a node
+        if (node->next == nullptr) {  // reached the end of the list, append a node
             node->next = new Node(_value);
         } else {  // continue searching from the next node in the list
             insert(node->next, _value);
@@ -40,12 +37,12 @@ void List::insert(Node*& node, int _value) {
 
 // Remove
 void List::remove(int _value) {
-    Node* currentNode = firstNode;
-    Node* lastNode = firstNode;
-    while (currentNode != NULL) {            // while we haven't reached the end of the list, iterate over nodes.
+    Node* currentNode{firstNode};
+    Node* lastNode{firstNode};
+    while (currentNode != nullptr) {         // while we haven't reached the end of the list, iterate over nodes.
         if (currentNode->value == _value) {  // check if we've found the node to delete
             if (currentNode == firstNode) {
-                Node* tmp = currentNode->next;
+                Node* tmp{currentNode->next};
                 delete firstNode;
                 firstNode = tmp;
                 return;
@@ -63,14 +60,14 @@ void List::remove(int _value) {
 
 // Deep copy constructor
 List::List(List const& other) {
-    firstNode = NULL;
-    Node* tmp = other.firstNode;
-    Node* cursor;
-    if (tmp != NULL) {
+    firstNode = nullptr;
+    Node* tmp{other.firstNode};
+    Node* cursor{};
+    if (tmp != nullptr) {
         firstNode = new Node(tmp->value);
         cursor = firstNode;
         tmp = tmp->next;
-        while (tmp != NULL) {
+        while (tmp != nullptr) {
             cursor->next = new Node(tmp->value);
             tmp = tmp->next;
             cursor = cursor->next;
@@ -80,40 +77,29 @@ List::List(List const& other) {
 
 // Deep copy "=" assignment
 List& List::operator=(List const& other) {
-    clean();  // Remove any old data first.
-    Node* tmp = other.firstNode;
-    Node* cursor;
-    if (tmp != NULL) {
-        firstNode = new Node(tmp->value);
-        cursor = firstNode;
-        tmp = tmp->next;
-        while (tmp != NULL) {
-            cursor->next = new Node(tmp->value);
-            tmp = tmp->next;
-            cursor = cursor->next;
-        }
-    }
+    //clean();
+    new (this) List{other};
     return *this;
 }
 
 // Quick move constructor
 List::List(List&& other) {
     firstNode = other.firstNode;
-    other.firstNode = NULL;
+    other.firstNode = nullptr;
 }
 
-// Quick move "=" assignment
 List& List::operator=(List&& other) {
+    clean();
     firstNode = other.firstNode;
-    other.firstNode = NULL;
+    other.firstNode = nullptr;
     return *this;
 }
 
 // to_string
 string List::to_string() {
-    Node* currentNode = firstNode;
+    Node* currentNode{firstNode};
     string str{"{ "};
-    while (currentNode != NULL) {
+    while (currentNode != nullptr) {
         str += std::to_string(currentNode->value) + " ";
         currentNode = currentNode->next;
     }
@@ -123,14 +109,14 @@ string List::to_string() {
 
 // is_empty
 bool List::is_empty() {
-    return (firstNode == NULL);
+    return (firstNode == nullptr);
 }
 
 // size
 int List::size() {
     int tmp{};
-    Node* currentNode = firstNode;
-    while (currentNode != NULL) {
+    Node* currentNode{firstNode};
+    while (currentNode != nullptr) {
         tmp++;
         currentNode = currentNode->next;
     }
@@ -139,28 +125,25 @@ int List::size() {
 
 // clean (deletes all the elements in the list)
 void List::clean() {
-    while (firstNode != NULL) {
+    while (firstNode != nullptr) {
         remove(firstNode->value);
     }
 }
 
 // destructor
 List::~List() {
-    Node* currentNode = firstNode;
-    while (currentNode != NULL) {
-        Node* temp = currentNode->next;
+    Node* currentNode{firstNode};
+    while (currentNode != nullptr) {
+        Node* temp{currentNode->next};
         delete currentNode;
         currentNode = temp;
     }
 }
 
 /* 
-
     -- NODE --
-
 */
 // constructor
-List::Node::Node(int _value) {
-    value = _value;
-    next = NULL;
+List::Node::Node(int _value)
+    : value{_value}, next{nullptr} {
 }
